@@ -11,7 +11,7 @@ const NavbarAdmin = ({path}) => {
     const router = useRouter();
     const menuItems = [
         "Profile",
-        "Artike;",
+        "Artikel",
         "Logout",
     ];
 
@@ -62,7 +62,7 @@ const NavbarAdmin = ({path}) => {
               color={
                 index === menuItems.length - 1 ? "danger": "foreground" 
               }
-              className="w-full"
+              className={`w-full ${item.toLowerCase() === path ? "text-blue-500" : ""} font-semibold`}
               href={`/admin/${item.toLowerCase()}`}
               size="lg"
             >
