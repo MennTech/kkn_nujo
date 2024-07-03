@@ -1,4 +1,4 @@
-// withAuth.js
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../../../services/firebase";
