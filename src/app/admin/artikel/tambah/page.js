@@ -5,7 +5,6 @@ import React from "react";
 import { db } from "../../../../services/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { Button, Image, Input, Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
-import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { getFile, uploadFile } from "@/libs/storage";
 import { toast } from "sonner";
@@ -13,7 +12,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import slugify from "slugify";
 import withAuth from "@/components/Auth/CheckAuth";
+import dynamic from "next/dynamic";
 // import Uploader from "@/components/Input/UploadImages";
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const validationSchema = yup.object({
     judul: yup.string().required('Judul diperlukan'),

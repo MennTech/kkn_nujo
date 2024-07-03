@@ -6,18 +6,21 @@ import { db } from "../../../services/firebase";
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { toast } from "sonner";
 import { useFormik } from "formik";
-import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
 import * as yup from "yup";
 import { Button, Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
 import withAuth from "@/components/Auth/CheckAuth";
+import 'react-quill/dist/quill.snow.css';
+import dynamic from "next/dynamic";
 
-const validationSchema = yup.object({
-    sejarah: yup.string().required('Sejarah diperlukan'),
-    tentang: yup.string().required('Tentang diperlukan'),
-});
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const ProfilePage = () => {
+function ProfilePage() {
+
+  const validationSchema = yup.object({
+      sejarah: yup.string().required('Sejarah diperlukan'),
+      tentang: yup.string().required('Tentang diperlukan'),
+  });
+
   const modules = {
     toolbar: [
         [{ font: [] }],
@@ -34,7 +37,6 @@ const ProfilePage = () => {
         sejarah: '',
         tentang: '',
     },
-    enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
         // Update document in Firestore
@@ -55,11 +57,9 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, "profile"));
-      querySnapshot.forEach((doc) => {
-        formik.setFieldValue('sejarah', doc.data().sejarah);
-        formik.setFieldValue('tentang', doc.data().tentang);
-      });
+      const querySnapshot = (await getDocs(collection(db, "profile"))).docs[0];
+      formik.setFieldValue('sejarah', querySnapshot.data().sejarah);
+      formik.setFieldValue('tentang', querySnapshot.data().tentang);
     };
     fetchData();
   }, []);

@@ -5,7 +5,6 @@ import NavbarAdmin from "@/components/TopNavbar/NavbarAdmin";
 import { db } from '../../../../../services/firebase';
 import { collection, where, query, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { Button, Image, Input, Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
-import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { getFile, uploadFile } from "@/libs/storage";
 import { ref, deleteObject } from 'firebase/storage';
@@ -16,6 +15,9 @@ import { useRouter } from 'next/navigation';
 import * as yup from "yup";
 import slugify from "slugify";
 import withAuth from '@/components/Auth/CheckAuth';
+import dynamic from "next/dynamic";
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 // Validation schema for form fields
 const validationSchema = yup.object({
