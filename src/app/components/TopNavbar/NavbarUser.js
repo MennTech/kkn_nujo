@@ -6,22 +6,13 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navba
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../services/firebase';
 
-const NavbarAdmin = ({path}) => {
+const NavbarUser = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const router = useRouter();
     const menuItems = [
-        "Profile",
         "Artikel",
+        "Profile"
     ];
-
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            router.push('/admin')
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
     return(
         <>
@@ -32,35 +23,27 @@ const NavbarAdmin = ({path}) => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">NUJO</p>
+          <Link href='/' className="font-bold text-inherit text-[#08997c]">NUJO</Link>
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive = {path == 'profile' ? true : false}>
-          <Link color="foreground" href="/admin/profile">
-            Profile
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive = {path == 'artikel' ? true : false}>
-          <Link color="foreground" href="/admin/artikel">
+      <NavbarContent className="hidden sm:flex gap-4" justify="end">
+        <NavbarItem isActive>
+          <Link href="#" className='text-[#08997c]'>
             Artikel
           </Link>
         </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <Button color='danger' onClick={handleLogout}>
-            Logout
-          </Button>
+        <NavbarItem isActive>
+          <Link href="#" className='text-[#08997c]'>
+            Profile
+          </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
-              color="foreground"
-              className={`w-full ${item.toLowerCase() === path ? "text-blue-500" : ""} font-semibold`}
-              href={`/admin/${item.toLowerCase()}`}
+              className='w-full font-semibold text-[#08997c]'
+              href={`/${item.toLowerCase()}`}
               size="lg"
             >
               {item}
@@ -74,4 +57,4 @@ const NavbarAdmin = ({path}) => {
     );
 }
 
-export default NavbarAdmin;
+export default NavbarUser;

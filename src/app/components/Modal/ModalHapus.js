@@ -21,6 +21,7 @@ const ModalHapus = ({ id, reload, linkImage}) => {
         Hapus
       </Button>
       <Modal
+        placement="center"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         isDismissable={false}

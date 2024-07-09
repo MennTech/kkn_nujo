@@ -65,53 +65,57 @@ function ProfilePage() {
   }, []);
 
   return (
-      <div className="h-screen bg-gradient-to-br from-slate-100 to-purple-500 overflow-hidden">
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-100 to-purple-500 overflow-hidden">
           <NavbarAdmin path="profile"/>
-          <div className="w-screen flex justify-center items-center content-center mt-5">
-            <div className="w-screen max-w-[1024px] px-6 min-w-[420px]:px-6">
-              <Card className="max-h-[580px]">
-                <CardHeader>
-                  <p className='text-medium font-semibold'>Profil Padukuhan</p>
-                </CardHeader>
-                <Divider />
-                <CardBody>
-                  <form onSubmit={formik.handleSubmit}>
-                      <div className="grid">
-                        <div className="h-48">
-                          <label htmlFor="sejarah">Sejarah Padukuhan</label>
-                          <ReactQuill
-                            theme="snow"
-                            id="sejarah"
-                            modules={modules}
-                            value={formik.values.sejarah}
-                            onChange={(value) => formik.setFieldValue('sejarah', value)}
-                            placeholder="Sejarah"
-                            className="h-[50%] sm:h-[70%]"
-                          />
-                          {formik.errors.sejarah && formik.touched.sejarah && (
-                            <div className="text-red-500">{formik.errors.sejarah}</div>
-                          )}
-                        </div>
-                        <div className="h-48 mt-5">
-                          <label htmlFor="tentang">Tentang Padukuhan</label>
-                          <ReactQuill
-                            theme="snow"
-                            id="tentang"
-                            modules={modules}
-                            value={formik.values.tentang}
-                            onChange={(value) => formik.setFieldValue('tentang', value)}
-                            placeholder="Tentang"
-                            className="h-[50%] sm:h-[70%]"
-                          />
-                          {formik.errors.tentang && formik.touched.tentang && (
-                            <div className="text-red-500">{formik.errors.tentang}</div>
-                          )}
-                        </div>
-                        <Button className="mt-5" color="primary" onClick={formik.handleSubmit}>Simpan Perubahan</Button>
-                      </div>
-                  </form>
-                </CardBody>
-              </Card>
+          <div className="h-full py-10">
+            <div className="flex justify-center items-center">
+              <div className="w-full mt-4 max-w-[1024px] px-6 min-w-[420px]:px-6">
+                  <Card className="flex flex-col gap-y-2">
+                    <CardHeader>
+                      <p className='text-medium font-semibold'>Profil Padukuhan</p>
+                    </CardHeader>
+                    <Divider />
+                    <CardBody>
+                      <form onSubmit={formik.handleSubmit}>
+                          <div>
+                            <div className="h-48">
+                              <label htmlFor="sejarah" className="text-sm">Sejarah Padukuhan <span className="text-red-500">*</span></label>
+                              <ReactQuill
+                                theme="snow"
+                                id="sejarah"
+                                modules={modules}
+                                value={formik.values.sejarah}
+                                onChange={(value) => formik.setFieldValue('sejarah', value)}
+                                placeholder="Sejarah"
+                                className="h-[50%] sm:h-[70%]"
+                              />
+                              {formik.errors.sejarah && formik.touched.sejarah && (
+                                <div className="text-red-500">{formik.errors.sejarah}</div>
+                              )}
+                            </div>
+                            <div className="h-48 mt-5">
+                              <label htmlFor="tentang" className="text-sm">Tentang Padukuhan <span className="text-red-500">*</span></label>
+                              <ReactQuill
+                                theme="snow"
+                                id="tentang"
+                                modules={modules}
+                                value={formik.values.tentang}
+                                onChange={(value) => formik.setFieldValue('tentang', value)}
+                                placeholder="Tentang"
+                                className="h-[50%] sm:h-[70%]"
+                              />
+                              {formik.errors.tentang && formik.touched.tentang && (
+                                <div className="text-red-500">{formik.errors.tentang}</div>
+                              )}
+                            </div>
+                            <div className="w-full mt-5">
+                              <Button className="w-full" color="primary" onClick={formik.handleSubmit}>Simpan Perubahan</Button>
+                            </div>
+                          </div>
+                      </form>
+                    </CardBody>
+                  </Card>
+              </div>
             </div>
           </div>
       </div>

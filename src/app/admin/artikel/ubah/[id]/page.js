@@ -114,66 +114,75 @@ const UbahArtikelPage = ({ params }) => {
     }, []);
 
     return (
-        <div className='bg-gradient-to-br from-slate-100 to-purple-500 overflow-x-hidden'>
+        <div className='flex flex-col min-h-screen bg-gradient-to-br from-slate-100 to-purple-500 overflow-hidden'>
             <NavbarAdmin path={'artikel'} />
-            <div className="w-screen flex justify-center items-center content-center my-5">
-                <div className="w-screen max-w-[1024px] px-6 min-w-[420px]:px-6">
-                    <Card>
-                        <CardHeader>
-                            <p className='text-medium font-semibold'>Ubah Artikel</p>
-                        </CardHeader>
-                        <Divider />
-                        <CardBody>
-                            <form onSubmit={formik.handleSubmit}>
-                                <div className='grid grid-rows-2 gap-4'>
-                                    <div>
-                                        <Input
-                                            type='text'
-                                            label='Judul'
-                                            placeholder='Judul'
-                                            isRequired
-                                            labelPlacement='outside'
-                                            value={formik.values.judul}
-                                            onChange={formik.handleChange('judul')}
-                                        />
-                                        {formik.errors.judul && formik.touched.judul && (
-                                            <div className="text-red-500 text-sm">{formik.errors.judul}</div>
+            <div className='h-full py-10'>
+                <div className="flex justify-center items-center h-full">
+                    <div className="w-full mt-4 max-w-[1024px] px-6 min-w-[420px]:px-6">
+                        <Card className='flex flex-col gap-y-2'>
+                            <CardHeader>
+                                <p className='text-medium font-semibold'>Ubah Artikel</p>
+                            </CardHeader>
+                            <Divider />
+                            <CardBody>
+                                <form onSubmit={formik.handleSubmit}>
+                                    <div className=''>
+                                        <div className='my-4'>
+                                            <Input
+                                                type='text'
+                                                label='Judul'
+                                                placeholder='Judul'
+                                                isRequired
+                                                labelPlacement='outside'
+                                                value={formik.values.judul}
+                                                onChange={formik.handleChange('judul')}
+                                            />
+                                            {formik.errors.judul && formik.touched.judul && (
+                                                <div className="text-red-500 text-sm">{formik.errors.judul}</div>
+                                            )}
+                                        </div>
+                                        <div className='flex flex-col'>
+                                            <label htmlFor='selectedFile' className='text-sm'>Gambar</label>
+                                            <input
+                                                type='file'
+                                                id='selectedFile'
+                                                onChange={handleImageChange}
+                                                accept='image/*'
+                                                label='Gambar'
+                                                placeholder='Pilih Gambar'
+                                                name='selectedFile'
+                                            />
+                                            {formik.errors.selectedFile && formik.touched.selectedFile && (
+                                                <div className="text-red-500 text-sm">{formik.errors.selectedFile}</div>
+                                            )}
+                                        </div>
+                                        <div className='my-4'>
+                                            {preview && <Image src={preview} className='w-full aspect-[16/9]' />}
+                                        </div>
+                                        <div className='h-52 mb-6'>
+                                            <label htmlFor='konten' className='text-sm'>Konten</label>
+                                            <ReactQuill 
+                                                id='konten'
+                                                theme='snow'
+                                                modules={modules}
+                                                value={formik.values.content}
+                                                onChange={(content) => formik.setFieldValue('content', content)}
+                                                key='content'
+                                                className='sm:h-[80%] h-[60%]'
+                                                placeholder='Isi Content'
+                                            />
+                                        </div>
+                                        {formik.errors.content && formik.touched.content && (
+                                            <div className="text-red-500 text-sm">{formik.errors.content}</div>
                                         )}
+                                        <div className='w-full mt-10'>
+                                            <Button color="primary" onClick={formik.handleSubmit} className='w-full'>Simpan</Button>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <Input 
-                                            type='file'
-                                            onChange={handleImageChange}
-                                            accept='image/*'
-                                            label='Gambar'
-                                            labelPlacement='outside'
-                                            placeholder='Pilih Gambar'
-                                            name='selectedFile'
-                                        />
-                                        {formik.errors.selectedFile && formik.touched.selectedFile && (
-                                            <div className="text-red-500 text-sm">{formik.errors.selectedFile}</div>
-                                        )}
-                                    </div>
-                                    {preview && <Image src={preview} width='50%' />}
-                                    <div className='h-52'>
-                                        <ReactQuill 
-                                            theme='snow'
-                                            modules={modules}
-                                            value={formik.values.content}
-                                            onChange={(content) => formik.setFieldValue('content', content)}
-                                            key='content'
-                                            className='sm:h-[80%] h-[70%]'
-                                            placeholder='Isi Content'
-                                        />
-                                    </div>
-                                    {formik.errors.content && formik.touched.content && (
-                                        <div className="text-red-500 text-sm">{formik.errors.content}</div>
-                                    )}
-                                    <Button color="primary" onClick={formik.handleSubmit}>Simpan</Button>
-                                </div>
-                            </form>
-                        </CardBody>
-                    </Card>
+                                </form>
+                            </CardBody>
+                        </Card>
+                    </div>
                 </div>
             </div>
         </div>
