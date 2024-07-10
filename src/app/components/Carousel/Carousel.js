@@ -49,9 +49,9 @@ const Carousel = () => {
                         <SwiperSlide key={index} className="relative">
                             <img src={slide.image} className="object-cover h-full w-full" alt={`carousel-${index}`} />
                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white p-4">
-                                <h2 className="text-7xl mb-2" data-swiper-parallax="-300">{slide.title}</h2>
-                                <h3 className="text-2xl mb-4" data-swiper-parallax="-200">{slide.subtitle}</h3>
-                                <p className="text-lg" data-swiper-parallax="-100">{slide.text}</p>
+                                <h2 className="text-7xl mb-2 font-bold" data-swiper-parallax="-300">{slide.title}</h2>
+                                {/* <h3 className="text-2xl mb-4" data-swiper-parallax="-200">{slide.subtitle}</h3>
+                                <p className="text-lg" data-swiper-parallax="-100">{slide.text}</p> */}
                             </div>
                             <div className="gradient-overlay"></div>
                         </SwiperSlide>

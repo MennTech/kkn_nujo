@@ -4,7 +4,7 @@ import NavbarAdmin from "@/components/TopNavbar/NavbarAdmin";
 import React from "react";
 import { db } from "../../../../services/firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { Button, Image, Input, Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
+import { Button, Image, Input, Card, CardHeader, CardBody, Divider, DatePicker } from "@nextui-org/react";
 import 'react-quill/dist/quill.snow.css';
 import { getFile, uploadFile } from "@/libs/storage";
 import { toast } from "sonner";
@@ -19,6 +19,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const validationSchema = yup.object({
     judul: yup.string().required('Judul diperlukan'),
+    tanggalKegiatan: yup.string().required('Tanggal Kegiatan diperlukan'),
     content: yup.string().required('Content diperlukan'),
     selectedFile: yup.mixed().required('Gambar diperlukan')
         .test('fileSize', 'File terlalu besar, maksimal 1MB', (value) => {
@@ -52,6 +53,7 @@ const TambahArtikelPage = () => {
     const formik = useFormik({
         initialValues: {
             judul: '',
+            tanggalKegiatan: '',
             content: '',
             selectedFile: null
         },
@@ -66,6 +68,7 @@ const TambahArtikelPage = () => {
             await addDoc(collection(db, "artikel"), {
                 id: slugify(values.judul, {lower: true}),
                 judul: values.judul,
+                tanggalKegiatan: values.tanggalKegiatan,
                 content: values.content,
                 image: imageUrl,
                 tanggalPembuatan: formatDate(new Date())
@@ -116,6 +119,9 @@ const TambahArtikelPage = () => {
                                             {formik.errors.judul && formik.touched.judul && (
                                                 <div className="text-red-500 text-sm">{formik.errors.judul}</div>
                                             )}
+                                        </div>
+                                        <div>
+                                            <DatePicker/>
                                         </div>
                                         <div>
                                             <div>
