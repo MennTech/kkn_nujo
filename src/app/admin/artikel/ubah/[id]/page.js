@@ -81,6 +81,7 @@ const UbahArtikelPage = ({ params }) => {
 
             toast.success('Artikel berhasil diubah', {
                 position: 'top-right',
+                duration: 2000
             });
             router.push('/admin/artikel');
         }

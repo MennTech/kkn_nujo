@@ -13,13 +13,16 @@ import * as yup from "yup";
 import slugify from "slugify";
 import withAuth from "@/components/Auth/CheckAuth";
 import dynamic from "next/dynamic";
+import {getLocalTimeZone, parseDate ,today} from "@internationalized/date"
+import { useRouter } from 'next/navigation';
+
 // import Uploader from "@/components/Input/UploadImages";
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const validationSchema = yup.object({
     judul: yup.string().required('Judul diperlukan'),
-    tanggalKegiatan: yup.string().required('Tanggal Kegiatan diperlukan'),
+    tanggalKegiatan: yup.date().required('Tanggal Kegiatan diperlukan'),
     content: yup.string().required('Content diperlukan'),
     selectedFile: yup.mixed().required('Gambar diperlukan')
         .test('fileSize', 'File terlalu besar, maksimal 1MB', (value) => {
@@ -38,7 +41,7 @@ const formatDate = (date) => {
 
 const TambahArtikelPage = () => {
     const [preview, setPreview] = React.useState(null);
-    
+    const router = useRouter();
     const modules =  {
         toolbar: [
             [{font:[]}],
@@ -53,7 +56,7 @@ const TambahArtikelPage = () => {
     const formik = useFormik({
         initialValues: {
             judul: '',
-            tanggalKegiatan: '',
+            tanggalKegiatan: null,
             content: '',
             selectedFile: null
         },
@@ -68,17 +71,19 @@ const TambahArtikelPage = () => {
             await addDoc(collection(db, "artikel"), {
                 id: slugify(values.judul, {lower: true}),
                 judul: values.judul,
-                tanggalKegiatan: values.tanggalKegiatan,
+                tanggalKegiatan: formatDate(values.tanggalKegiatan),
                 content: values.content,
                 image: imageUrl,
                 tanggalPembuatan: formatDate(new Date())
             })
             .then(() => {
-                toast.success('Berhasil menambahkan data',{
-                    position: 'top-right',
-                });
                 resetForm();
                 setPreview(null);
+                router.push('/admin/artikel');
+                toast.success('Berhasil menambahkan data',{
+                    position: 'top-right',
+                    duration: 2000
+                });
             });
         },
     });
@@ -121,9 +126,12 @@ const TambahArtikelPage = () => {
                                             )}
                                         </div>
                                         <div>
-                                            <DatePicker/>
+                                            <DatePicker showMonthAndYearPickers maxValue={today()} label='Tanggal Kegiatan' labelPlacement="outside" name="tanggalKegiatan" onChange={value => formik.setFieldValue('tanggalKegiatan',new Date(value))} isRequired/>
+                                            {formik.errors.tanggalKegiatan && formik.touched.tanggalKegiatan && (
+                                                <div className="text-red-500 text-sm">{formik.errors.tanggalKegiatan}</div>
+                                            )}
                                         </div>
-                                        <div>
+                                        <div className="mt-3">
                                             <div>
                                                 <label htmlFor="selectedFile" className="text-sm">Gambar <span className="text-red-500">*</span></label>
                                             </div>
@@ -160,7 +168,7 @@ const TambahArtikelPage = () => {
                                             <div className="text-red-500 text-sm">{formik.errors.content}</div>
                                         )}
                                         <div className="w-full mt-10">
-                                            <Button color="primary" type="submit" className="w-full">Tambah</Button>
+                                            <Button color="primary" type="submit" className="w-full" onClick={formik.handleSubmit}>Tambah</Button>
                                         </div>
                                     </div>
                                 </form>

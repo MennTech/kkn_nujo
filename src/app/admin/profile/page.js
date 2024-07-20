@@ -7,7 +7,7 @@ import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { toast } from "sonner";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
+import { Button, Card, CardHeader, CardBody, Divider, Input } from "@nextui-org/react";
 import withAuth from "@/components/Auth/CheckAuth";
 import 'react-quill/dist/quill.snow.css';
 import dynamic from "next/dynamic";
@@ -19,6 +19,9 @@ function ProfilePage() {
   const validationSchema = yup.object({
       sejarah: yup.string().required('Sejarah diperlukan'),
       tentang: yup.string().required('Tentang diperlukan'),
+      rt: yup.string().required('RT diperlukan'),
+      rw: yup.string().required('RW diperlukan'),
+      jumlahPenduduk: yup.string().required('Jumlah Penduduk diperlukan'),
   });
 
   const modules = {
@@ -36,6 +39,9 @@ function ProfilePage() {
     initialValues: {
         sejarah: '',
         tentang: '',
+        rt: '',
+        rw: '',
+        jumlahPenduduk: '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -46,6 +52,9 @@ function ProfilePage() {
             await updateDoc(docRef, {
                 sejarah: values.sejarah,
                 tentang: values.tentang,
+                rt: values.rt,
+                rw: values.rw,
+                jumlahPenduduk: values.jumlahPenduduk,
             });
         });
 
@@ -60,6 +69,9 @@ function ProfilePage() {
       const querySnapshot = (await getDocs(collection(db, "profile"))).docs[0];
       formik.setFieldValue('sejarah', querySnapshot.data().sejarah);
       formik.setFieldValue('tentang', querySnapshot.data().tentang);
+      formik.setFieldValue('rt', querySnapshot.data().rt);
+      formik.setFieldValue('rw', querySnapshot.data().rw);
+      formik.setFieldValue('jumlahPenduduk', querySnapshot.data().jumlahPenduduk);
     };
     fetchData();
   }, []);
@@ -78,7 +90,60 @@ function ProfilePage() {
                     <CardBody>
                       <form onSubmit={formik.handleSubmit}>
                           <div>
-                            <div className="h-48">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:grid-cols-3 sm:grid-cols-3">
+                              <div className="col-span-1">
+                                <Input
+                                  type="number"
+                                  id="rt"
+                                  name="rt"
+                                  value={formik.values.rt}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  label="RT"
+                                  labelPlacement="outside"
+                                  placeholder="Masukkan Jumlah RT"
+                                  isRequired
+                                />
+                                {formik.errors.rt && formik.touched.rt && (
+                                  <div className="text-red-500">{formik.errors.rt}</div>
+                                )}
+                              </div>
+                              <div className="col-span-1">
+                                <Input
+                                  type="number"
+                                  id="rw"
+                                  name="rw"
+                                  value={formik.values.rw}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  label="RW"
+                                  labelPlacement="outside"
+                                  placeholder="Masukkan Jumlah RW"
+                                  isRequired
+                                />
+                                {formik.errors.rw && formik.touched.rw && (
+                                  <div className="text-red-500 text-sm">{formik.errors.rw}</div>
+                                )}
+                              </div>
+                              <div className="col-span-1">
+                                <Input
+                                  type="number"
+                                  id="jumlahPenduduk"
+                                  name="jumlahPenduduk"
+                                  value={formik.values.jumlahPenduduk}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  label="Jumlah Penduduk"
+                                  labelPlacement="outside"
+                                  placeholder="Masukkan Jumlah Penduduk"
+                                  isRequired
+                                />
+                                {formik.errors.jumlahPenduduk && formik.touched.jumlahPenduduk && (
+                                  <div className="text-red-500 text-sm">{formik.errors.jumlahPenduduk}</div>
+                                )}
+                              </div>
+                            </div>
+                            <div className="h-48 mt-5">
                               <label htmlFor="sejarah" className="text-sm">Sejarah Padukuhan <span className="text-red-500">*</span></label>
                               <ReactQuill
                                 theme="snow"

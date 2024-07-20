@@ -42,10 +42,11 @@ const ArtikelPage = () => {
         key: doc.id,
         id: doc.data().id,
         tanggal: doc.data().tanggalPembuatan,
+        tanggalKegiatan: doc.data().tanggalKegiatan,
         judul: doc.data().judul,
         image: doc.data().image,
         actions: (
-          <div className="space-x-1">
+          <div className="space-x-1 flex flex-wrap">
             <Button
               color="warning"
               as={Link}
@@ -105,6 +106,7 @@ const ArtikelPage = () => {
               <TableColumn key="judul">Judul</TableColumn>
               <TableColumn key="image">Gambar</TableColumn>
               <TableColumn key="tanggal">Tanggal Pembuatan</TableColumn>
+              <TableColumn key="tanggalKegiatan">Tanggal Kegiatan</TableColumn>
               <TableColumn key="actions" width="200">
                 Actions
               </TableColumn>
@@ -121,6 +123,7 @@ const ArtikelPage = () => {
                     />
                   </TableCell>
                   <TableCell>{getKeyValue(item, "tanggal")}</TableCell>
+                  <TableCell>{getKeyValue(item, "tanggalKegiatan")}</TableCell>
                   {/* <TableCell  className="max-w-52 w-auto text-ellipsis overflow-hidden">
                                     <div dangerouslySetInnerHTML={{ __html:getKeyValue(item, 'content') }}/>
                                   </TableCell> */}

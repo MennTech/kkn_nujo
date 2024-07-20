@@ -6,7 +6,9 @@ import { ReactTyped } from "react-typed";
 import React from "react";
 import { db } from "../../services/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { Card, CardBody } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
+import { FaLongArrowAltRight } from "react-icons/fa";
+import FooterUser from "@/components/Footer/footer";
 
 export default function Home() {
   const [data, setData] = React.useState([]);
@@ -16,12 +18,14 @@ export default function Home() {
       return {
         key: doc.id,
         id: doc.data().id,
-        tanggal: doc.data().tanggalPembuatan,
+        tanggalKegiatan: doc.data().tanggalKegiatan,
+        tanggalPembuatan: new Date(doc.data().tanggalPembuatan),
         judul: doc.data().judul,
         image: doc.data().image,
       };
     });
-    setData(result);
+    const sortedResult = result.sort((a, b) => b.tanggalPembuatan - a.tanggalPembuatan).slice(0, 3);
+    setData(sortedResult);
   }
 
   React.useEffect(() => {
@@ -33,7 +37,7 @@ export default function Home() {
     <>
       <NavbarUser/>
       <Carousel/>
-      <div className="mt-3 flex flex-col justify-center items-center">
+      <div className="mt-5 flex flex-col justify-center items-center">
         <div className="w-full flex flex-col justify-center items-center">
           {/* <ReactTyped strings={["Selamat Datang di Website"]} typeSpeed={80} className="text-4xl text-[#08997c] font-mono font-bold overflow-hidden"/>
           <ReactTyped strings={["Padukuhan Nujo"]} typeSpeed={80} className="text-3xl text-[#08997c] font-semibold font-mono overflow-hidden"/> */}
@@ -50,20 +54,24 @@ export default function Home() {
             <div className="bg-green-600 h-1 w-32"></div>
           </div> 
           <div>
-            <div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {data.map((item, index) => (
-                <div key={index} className=" w-full h-full group bg-white rounded-lg mb-2 hover:shadow-lg ">
-                  <div className="w-full h-64 bg-cover bg-center group-hover:rotate-2 transition-transform group-hover:scale-110" style={{backgroundImage: `url(${item.image})`}}></div>
+                <div key={index} className=" w-full h-full bg-white rounded-lg mb-2 hover:shadow-lg group overflow-hidden ">
+                  <div className="w-full h-64 bg-cover bg-center rounded group-hover:scale-110 ease-in duration-200" style={{backgroundImage: `url(${item.image})`}}></div>
                   <div className="p-4">
-                    <h1 className="text-2xl font-semibold font-mono text-[#08997c]">{item.judul}</h1>
-                    <p className="text-[#08997c] font-mono">{item.tanggal}</p>
+                    <p className="text-[#08997c] font-mono text-sm">{item.tanggalKegiatan}</p>
+                    <p className="text-lg font-semibold font-mono text-[#08997c]">{item.judul}</p>
                   </div>
                 </div>
               ))}
             </div>
+            <div className="flex justify-end my-4 ">
+              <Link href="/artikel" className="text-[#08997c] font-mono font-semibold">Lihat Berita Lainnya<FaLongArrowAltRight/></Link>
+            </div>
           </div>
         </div>
       </div>
+      <FooterUser/>
     </>
   );
 }

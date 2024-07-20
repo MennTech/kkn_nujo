@@ -4,6 +4,7 @@ import {db} from "../../../services/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { storage } from "../../../services/firebase";
+import { toast } from "sonner";
 
 const ModalHapus = ({ id, reload, linkImage}) => {
   const { onOpenChange, isOpen, onOpen } = useDisclosure();
@@ -12,6 +13,10 @@ const ModalHapus = ({ id, reload, linkImage}) => {
     await deleteDoc(doc(db, "artikel", id));
     const storageRef = ref(storage, linkImage);
     await deleteObject(storageRef);
+    toast.success("Data berhasil dihapus",{
+      position: "top-right",
+      duration: 2000,
+    });
     reload();
   };
   
