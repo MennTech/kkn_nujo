@@ -20,10 +20,8 @@ const Carousel = () => {
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis iaculis nec.'
         },
         {
-            image: '/Images/Carousel/2.jpg',
-            title: 'Slide 2',
-            subtitle: 'Subtitle 2',
-            text: 'Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum.'
+            image: '/Images/Carousel/2.png',
+            title: 'Wisata Pantai Srakung',
         },
     ];
 

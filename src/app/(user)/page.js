@@ -29,7 +29,6 @@ export default function Home() {
   }
 
   React.useEffect(() => {
-
     fetchData();
   }
   , []);

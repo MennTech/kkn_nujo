@@ -30,7 +30,7 @@ const NavbarUser = () => {
           </NavbarItem>
           <NavbarItem isActive>
             <Link href="/profile" className='text-[#08997c]'>
-              Profile
+              Profil
             </Link>
           </NavbarItem>
         </NavbarContent>
