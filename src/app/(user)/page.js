@@ -7,7 +7,7 @@ import React from "react";
 import { db } from "../../services/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Link } from "@nextui-org/react";
-import { FaLongArrowAltRight } from "react-icons/fa";
+import { IoMdArrowDropright } from "react-icons/io";
 import FooterUser from "@/components/Footer/footer";
 
 export default function Home() {
@@ -110,7 +110,7 @@ export default function Home() {
                 href="/berita"
                 className="text-[#08997c] font-mono font-semibold"
               >
-                Lihat Berita Lainnya <FaLongArrowAltRight />
+                Lihat Berita Lainnya <IoMdArrowDropright/>
               </Link>
             </div>
           </div>

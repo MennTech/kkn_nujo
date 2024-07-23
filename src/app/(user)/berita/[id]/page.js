@@ -61,7 +61,7 @@ const DetailBerita = ({ params }) => {
             />
             <div
               dangerouslySetInnerHTML={{ __html: data.content }}
-              className="mt-3"
+              className="mt-3 text-justify"
             />
           </div>
         ) : (
