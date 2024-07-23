@@ -41,14 +41,14 @@ export default function Home() {
         <div className="w-full flex flex-col justify-center items-center">
           {/* <ReactTyped strings={["Selamat Datang di Website"]} typeSpeed={80} className="text-4xl text-[#08997c] font-mono font-bold overflow-hidden"/>
           <ReactTyped strings={["Padukuhan Nujo"]} typeSpeed={80} className="text-3xl text-[#08997c] font-semibold font-mono overflow-hidden"/> */}
-          <h1 className="text-4xl text-[#08997c] font-mono font-bold">Selamat Datang di Website</h1>
-          <h1 className="text-3xl text-[#08997c] font-mono font-bold">Padukuhan Nujo</h1>
-          <h1 className="text-2xl text-[#08997c] font-mono font-bold">Pucung, Kecamatan Girisubo, Kabupaten Gunung Kidul</h1>
-          <h1 className="text-2xl text-[#08997c] font-mono font-bold">Daerah Istimewa Yogyakarta, Indonesia</h1>
+          <h1 className="text-2xl md:text-4xl text-[#08997c] font-mono font-bold">Selamat Datang di Website</h1>
+          <h1 className="text-2xl md:text-3xl text-[#08997c] font-mono font-bold">Padukuhan Nujo</h1>
+          <h1 className="text-2xl text-[#08997c] font-mono font-bold text-center">Pucung, Kecamatan Girisubo, Kabupaten Gunung Kidul</h1>
+          <h1 className="text-2xl text-[#08997c] font-mono font-bold text-center">Daerah Istimewa Yogyakarta, Indonesia</h1>
         </div>
       </div>
       <div className="w-full flex justify-center mt-20">
-        <div className="w-[1024px]">
+        <div className="w-[1024px] mx-3">
           <div className="border-b border-b-green-300 mb-6">
             <h1 className="text-3xl text-[#08997c] font-semibold font-mono">BERITA <strong>TERKINI</strong></h1>
             <div className="bg-green-600 h-1 w-32"></div>
