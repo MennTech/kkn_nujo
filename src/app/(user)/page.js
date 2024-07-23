@@ -5,7 +5,7 @@ import Carousel from "@/components/Carousel/Carousel";
 import { ReactTyped } from "react-typed";
 import React from "react";
 import { db } from "../../services/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { Link } from "@nextui-org/react";
 import { IoMdArrowDropright } from "react-icons/io";
 import FooterUser from "@/components/Footer/footer";
@@ -13,23 +13,35 @@ import FooterUser from "@/components/Footer/footer";
 export default function Home() {
   const [data, setData] = React.useState([]);
   const fetchData = async () => {
-    const querySnapshot = await getDocs(collection(db, "artikel"));
+    const q = query(collection(db, "artikel"));
+    const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
       return {
         key: doc.id,
-        id: doc.data().id,
-        tanggalKegiatan: doc.data().tanggalKegiatan,
-        tanggalPembuatan: new Date(doc.data().tanggalPembuatan),
-        judul: doc.data().judul,
-        image: doc.data().image,
-        isi: doc.data().content,
+        id: data.id,
+        tanggalKegiatan: data.tanggalKegiatan, // Keep as string for display
+        judul: data.judul,
+        image: data.image,
+        isi: data.content,
       };
     });
-    const sortedResult = result
-      .sort((a, b) => b.tanggalPembuatan - a.tanggalPembuatan)
-      .slice(0, 3);
-    setData(sortedResult);
+  
+    // Convert tanggalKegiatan to Date for sorting
+    result.sort((a, b) => {
+      const dateA = new Date(a.tanggalKegiatan);
+      const dateB = new Date(b.tanggalKegiatan);
+      return dateB - dateA; // Sort in descending order
+    });
+  
+    // Limit to 3 items
+    const top3Items = result.slice(0, 3);
+  
+    console.log(top3Items);
+    setData(top3Items);
   };
+  
+  
 
   React.useEffect(() => {
     fetchData();

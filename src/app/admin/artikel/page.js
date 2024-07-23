@@ -36,36 +36,46 @@ const ArtikelPage = () => {
   }, [page, rows]);
 
   const fetchData = async () => {
-    const q = query(collection(db, "artikel"), orderBy("tanggalPembuatan", "desc"));
+    const q = query(collection(db, "artikel"));
     const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
       return {
         key: doc.id,
-        id: doc.data().id,
-        tanggal: doc.data().tanggalPembuatan,
-        tanggalKegiatan: doc.data().tanggalKegiatan,
-        judul: doc.data().judul,
-        image: doc.data().image,
+        id: data.id,
+        tanggal: data.tanggalPembuatan, // Format tanggalPembuatan
+        tanggalKegiatan: data.tanggalKegiatan, // Keep as string for sorting
+        judul: data.judul,
+        image: data.image,
         actions: (
           <div className="space-x-1 flex flex-wrap">
             <Button
               color="warning"
               as={Link}
-              href={`/admin/artikel/ubah/${doc.data().id}`}
+              href={`/admin/artikel/ubah/${data.id}`}
             >
               Ubah
             </Button>
             <ModalHapus
               id={doc.id}
               reload={fetchData}
-              linkImage={doc.data().image}
+              linkImage={data.image}
             />
           </div>
         ),
       };
     });
+  
+    // Convert tanggalKegiatan to Date and sort
+    result.sort((a, b) => {
+      const dateA = new Date(a.tanggalKegiatan);
+      const dateB = new Date(b.tanggalKegiatan);
+      return dateB - dateA; // Sort in descending order
+    });
+  
     setRows(result);
   };
+  
 
   React.useEffect(() => {
     fetchData();

@@ -15,10 +15,7 @@ export default function Berita() {
   const router = useRouter();
 
   const fetchData = async () => {
-    const q = query(
-      collection(db, "artikel"),
-      orderBy("tanggalPembuatan", "desc")
-    );
+    const q = query(collection(db, "artikel"));
     const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => {
       return {
@@ -30,8 +27,18 @@ export default function Berita() {
         image: doc.data().image,
       };
     });
+  
+    // Sort the result by tanggalKegiatan
+    result.sort((a, b) => {
+      const dateA = new Date(a.tanggalKegiatan);
+      const dateB = new Date(b.tanggalKegiatan);
+      return dateB - dateA; // Sort in descending order
+    });
+  
+    // Set the sorted data
     setData(result);
   };
+  
 
   useEffect(() => {
     fetchData();
