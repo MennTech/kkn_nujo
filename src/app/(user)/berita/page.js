@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import FooterUser from "@/components/Footer/footer";
 import NavbarUser from "@/components/TopNavbar/NavbarUser";
@@ -15,7 +15,10 @@ export default function Berita() {
   const router = useRouter();
 
   const fetchData = async () => {
-    const q = query(collection(db, "artikel"), orderBy("tanggalPembuatan", "desc"));
+    const q = query(
+      collection(db, "artikel"),
+      orderBy("tanggalPembuatan", "desc")
+    );
     const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => {
       return {
@@ -28,7 +31,7 @@ export default function Berita() {
       };
     });
     setData(result);
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -40,7 +43,7 @@ export default function Berita() {
 
   const handleReadMore = (id) => {
     router.push(`/berita/${id}`);
-  }
+  };
 
   return (
     <>
@@ -55,7 +58,9 @@ export default function Berita() {
                   Home<span>/</span>
                 </Link>
               </li>
-              <li className="text-[#08997c] font-bold text-medium flex justify-center items-center">Berita</li>
+              <li className="text-[#08997c] font-bold text-medium flex justify-center items-center">
+                Berita
+              </li>
             </ol>
             <Input
               type="text"
@@ -69,33 +74,71 @@ export default function Berita() {
         </div>
         <div className="mx-6">
           <div className="border-b border-b-green-300 mb-6">
-            <h1 className="text-3xl text-[#08997c] font-bold font-mono">BERITA</h1>
+            <h1 className="text-3xl text-[#08997c] font-bold font-mono">
+              BERITA
+            </h1>
             <div className="bg-green-600 h-1 w-32"></div>
-          </div> 
-          {filteredData.map((item) => (
-            <div key={item.key}>
-              <Card className="my-4 md:my-2 group overflow-hidden">
-                <CardBody className="w-full p-0 h-full md:h-40 group-hover:bg-slate-200">
-                  <div className="flex flex-col md:flex-row w-full md:justify-between overflow-hidden">
-                    <div className="w-full md:w-1/4">
-                      <img src={item.image} alt="gambar" className="w-full h-40 object-cover rounded-xl group-hover:scale-110 ease-in transition-transform duration-200" />
-                    </div>
-                    <div className="w-full md:w-1/2 px-4 py-2 overflow-hidden">
-                      <h1 className="text-xl font-bold">{item.judul}</h1>
-                      <p className="text-sm text-gray-500">{item.tanggalKegiatan}</p>
-                      <div className="text-ellipsis line-clamp-2 mt-1 text-sm " dangerouslySetInnerHTML={{ __html: item.isi }} />
-                    </div>
-                    <div className="w-full md:w-1/4 p-2 md:p-4 flex justify-end items-end">
-
-                      <Button onClick={() => handleReadMore(item.id)} className="mt-0 md:mt-2 bg-[#08997c] text-white font-semibold">Baca selengkapnya</Button>
+          </div>
+          {filteredData.length > 0
+            ? filteredData.map((item) => (
+                <div key={item.key}>
+                  <Card className="my-4 md:my-2 group overflow-hidden">
+                    <CardBody className="w-full p-0 h-full md:h-40 group-hover:bg-slate-200">
+                      <div className="flex flex-col md:flex-row w-full md:justify-between overflow-hidden">
+                        <div className="w-full md:w-1/4">
+                          <img
+                            src={item.image}
+                            alt="gambar"
+                            className="w-full h-40 object-cover rounded-xl group-hover:scale-110 ease-in transition-transform duration-200"
+                          />
+                        </div>
+                        <div className="w-full md:w-1/2 px-4 py-2 overflow-hidden">
+                          <h1 className="text-xl font-bold">{item.judul}</h1>
+                          <p className="text-sm text-gray-500">
+                            {item.tanggalKegiatan}
+                          </p>
+                          <div
+                            className="text-ellipsis line-clamp-2 mt-1 text-sm "
+                            dangerouslySetInnerHTML={{ __html: item.isi }}
+                          />
+                        </div>
+                        <div className="w-full md:w-1/4 p-2 md:p-4 flex justify-end items-end">
+                          <Button
+                            onClick={() => handleReadMore(item.id)}
+                            className="mt-0 md:mt-2 bg-[#08997c] text-white font-semibold"
+                          >
+                            Baca selengkapnya
+                          </Button>
+                        </div>
                       </div>
+                    </CardBody>
+                  </Card>
+                </div>
+              ))
+            : [...Array(3)].map((_, index) => (
+                <div
+                  key={index}
+                  className="my-4 md:my-2 group overflow-hidden animate-pulse"
+                >
+                  <div className="w-full p-0 h-full md:h-40 bg-white">
+                    <div className="flex flex-col md:flex-row w-full md:justify-between overflow-hidden">
+                      <div className="w-full md:w-1/4 bg-gray-300 h-40 rounded-xl"></div>
+                      <div className="w-full md:w-1/2 px-4 py-2">
+                        <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
+                        <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+                        <div className="h-4 bg-gray-300 rounded w-full mb-1"></div>
+                        <div className="h-4 bg-gray-300 rounded w-5/6 mb-1"></div>
+                      </div>
+                      <div className="w-full md:w-1/4 p-2 md:p-4 flex justify-end items-end">
+                        <div className="h-10 bg-gray-300 rounded w-32"></div>
+                      </div>
+                    </div>
                   </div>
-                </CardBody>
-              </Card>
-            </div>
-          ))}
+                </div>
+              ))}
         </div>
       </div>
+
       <FooterUser />
     </>
   );
