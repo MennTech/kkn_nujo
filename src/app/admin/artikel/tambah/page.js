@@ -15,6 +15,7 @@ import withAuth from "@/components/Auth/CheckAuth";
 import dynamic from "next/dynamic";
 import {getLocalTimeZone, parseDate ,today} from "@internationalized/date"
 import { useRouter } from 'next/navigation';
+import { FaImage } from "react-icons/fa6";
 
 // import Uploader from "@/components/Input/UploadImages";
 
@@ -135,7 +136,7 @@ const TambahArtikelPage = () => {
                                             <div>
                                                 <label htmlFor="selectedFile" className="text-sm">Gambar <span className="text-red-500">*</span></label>
                                             </div>
-                                            <input
+                                            {/* <input
                                                 type="file" 
                                                 id="selectedFile"
                                                 onChange={handleImageChange} 
@@ -143,14 +144,28 @@ const TambahArtikelPage = () => {
                                                 label='Gambar' 
                                                 placeholder="Pilih Gambar" 
                                                 name="selectedFile"
-                                            />
+                                            />  */}
+                                            <label className='border-[2px] border-dashed flex justify-center items-center min-h-40 w-fit min-w-40 max-w-80 rounded-2xl'>
+                                                <input className='w-full h-full sr-only' type="file" accept="image/*" onChange={handleImageChange} />
+                                                {preview ? (
+                                                    <Image isZoomed src={preview} alt='preview' className='object-cover max-h-40 max-w-80 w-full rounded-lg' />
+                                                ) :
+                                                    (
+                                                        <>
+                                                            <div className='flex flex-col justify-center items-center'>
+                                                                <FaImage size={32} className='text-gray-400' />
+                                                                <p className='text-[14px] text-gray-400'>unggah thumbnail</p>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                            </label>
                                             {formik.errors.selectedFile && formik.touched.selectedFile && (
                                                 <div className="text-red-500 text-sm">{formik.errors.selectedFile}</div>
                                             )}
                                         </div>
-                                        <div className="my-4">
+                                        {/* <div className="my-4">
                                             <Image src={preview} className="w-full aspect-[16/9]"/>
-                                        </div>
+                                        </div> */}
                                         <div className="h-52 mb-5">
                                             <label htmlFor="konten" className="text-sm">Konten <span className="text-red-500">*</span></label>
                                             <ReactQuill 

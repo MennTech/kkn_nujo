@@ -17,7 +17,7 @@ import NavbarAdmin from "@/components/TopNavbar/NavbarAdmin";
 import { FaCirclePlus } from "react-icons/fa6";
 import Link from "next/link";
 import { db } from "../../../services/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import ModalHapus from "@/components/Modal/ModalHapus";
 import withAuth from "@/components/Auth/CheckAuth";
 
@@ -36,7 +36,8 @@ const ArtikelPage = () => {
   }, [page, rows]);
 
   const fetchData = async () => {
-    const querySnapshot = await getDocs(collection(db, "artikel"));
+    const q = query(collection(db, "artikel"), orderBy("tanggalPembuatan", "desc"));
+    const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => {
       return {
         key: doc.id,
@@ -71,9 +72,9 @@ const ArtikelPage = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-gradient-to-br from-slate-100 to-purple-500">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-purple-500 overflow-hidden">
       <NavbarAdmin path={"artikel"} />
-      <div className="w-screen flex justify-center items-center content-center">
+      <div className="w-screen mb-5 flex justify-center items-center content-center">
         <div className="w-screen max-w-[1024px] px-6 min-w-[420px]:px-6">
           <div className="my-2 flex justify-end">
             <Button
@@ -124,9 +125,6 @@ const ArtikelPage = () => {
                   </TableCell>
                   <TableCell>{getKeyValue(item, "tanggal")}</TableCell>
                   <TableCell>{getKeyValue(item, "tanggalKegiatan")}</TableCell>
-                  {/* <TableCell  className="max-w-52 w-auto text-ellipsis overflow-hidden">
-                                    <div dangerouslySetInnerHTML={{ __html:getKeyValue(item, 'content') }}/>
-                                  </TableCell> */}
                   <TableCell>{getKeyValue(item, "actions")}</TableCell>
                 </TableRow>
               )}
