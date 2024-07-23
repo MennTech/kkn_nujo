@@ -73,7 +73,7 @@ const UbahArtikelPage = ({ params }) => {
             const querySnapshot = await getDocs(q);
             const docRef = doc(db, 'artikel', querySnapshot.docs[0].id);
             await updateDoc(docRef, {
-                id: slugify(values.judul, { lower: true }),
+                id: slugify(values.judul, { lower: true , remove: /[*+~.()'"!:@]/g }),
                 judul: values.judul,
                 content: values.content,
                 image: imageUrl
@@ -102,7 +102,7 @@ const UbahArtikelPage = ({ params }) => {
     // Fetching data for the article to be edited
     useEffect(() => {
         const fetchData = async () => {
-            const q = query(collection(db, 'artikel'), where('id', '==', id));
+            const q = query(collection(db, 'artikel'), where('id','==', id));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 const data = doc.data();

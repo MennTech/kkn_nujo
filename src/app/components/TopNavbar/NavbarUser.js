@@ -6,7 +6,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navba
 const NavbarUser = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const menuItems = [
-        "Artikel",
+        "Berita",
         "Profile"
     ];
 
@@ -24,7 +24,7 @@ const NavbarUser = () => {
         </NavbarContent>
         <NavbarContent className="hidden sm:flex gap-4" justify="end">
           <NavbarItem isActive>
-            <Link href="#" className='text-[#08997c]'>
+            <Link href="/berita" className='text-[#08997c]'>
               Berita
             </Link>
           </NavbarItem>

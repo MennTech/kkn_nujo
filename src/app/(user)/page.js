@@ -22,6 +22,7 @@ export default function Home() {
         tanggalPembuatan: new Date(doc.data().tanggalPembuatan),
         judul: doc.data().judul,
         image: doc.data().image,
+        isi: doc.data().content,
       };
     });
     const sortedResult = result.sort((a, b) => b.tanggalPembuatan - a.tanggalPembuatan).slice(0, 3);
@@ -59,13 +60,14 @@ export default function Home() {
                   <div className="w-full h-64 bg-cover bg-center rounded group-hover:scale-110 ease-in duration-200" style={{backgroundImage: `url(${item.image})`}}></div>
                   <div className="p-4">
                     <p className="text-[#08997c] font-mono text-sm">{item.tanggalKegiatan}</p>
-                    <p className="text-lg font-semibold font-mono text-[#08997c]">{item.judul}</p>
+                    <p className="text-lg font-semibold font-mono text-[#08997c] text-ellipsis line-clamp-2">{item.judul}</p>
+                    <div className="text-ellipsis line-clamp-3" dangerouslySetInnerHTML={{ __html:item.isi }}/>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex justify-end my-4 ">
-              <Link href="/artikel" className="text-[#08997c] font-mono font-semibold">Lihat Berita Lainnya<FaLongArrowAltRight/></Link>
+            <div className="flex justify-end mt-4">
+              <Link href="/berita" className="text-[#08997c] font-mono font-semibold">Lihat Berita Lainnya<FaLongArrowAltRight/></Link>
             </div>
           </div>
         </div>

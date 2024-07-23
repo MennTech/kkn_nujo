@@ -69,7 +69,7 @@ const TambahArtikelPage = () => {
                 imageUrl = await getFile(imagePath);
             }
             await addDoc(collection(db, "artikel"), {
-                id: slugify(values.judul, {lower: true}),
+                id: slugify(values.judul, {lower: true, remove: /[*+~.()'"!:@]/g}),
                 judul: values.judul,
                 tanggalKegiatan: formatDate(values.tanggalKegiatan),
                 content: values.content,

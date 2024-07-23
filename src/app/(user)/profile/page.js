@@ -50,7 +50,7 @@ const Profile = () => {
                         <li className="text-[#08997c] font-bold text-medium">Profile</li>
                     </ol>
                 </nav>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mx-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mx-6 mt-2">
                     <Card className="bg-[#f0fdf4]">
                         <CardBody className="flex justify-center items-center">
                             <div className="text-3xl font-extrabold text-[#08997c]">

@@ -16,8 +16,6 @@ const Carousel = () => {
         {
             image: '/Images/Carousel/1.jpg',
             title: 'Slide 1',
-            subtitle: 'Subtitle 1',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis iaculis nec.'
         },
         {
             image: '/Images/Carousel/2.png',
