@@ -37,7 +37,6 @@ export default function Home() {
     // Limit to 3 items
     const top3Items = result.slice(0, 3);
   
-    console.log(top3Items);
     setData(top3Items);
   };
   
@@ -84,7 +83,7 @@ export default function Home() {
                       ></div>
                       <div className="p-4">
                         <p className="text-[#08997c] font-mono text-sm">
-                          {item.tanggalKegiatan}
+                          {new Date(item.tanggalKegiatan).toLocaleString("id-ID", {dateStyle:'full'})}
                         </p>
                         <p className="text-lg font-bold font-mono text-[#08997c] text-ellipsis line-clamp-2">
                           {item.judul}

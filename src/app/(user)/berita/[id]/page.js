@@ -53,7 +53,7 @@ const DetailBerita = ({ params }) => {
               {data.judul}
             </p>
             <p className="text-center text-sm font-light">
-              {data.tanggalKegiatan}
+              {new Date(data.tanggalKegiatan).toLocaleString("id-ID", {dateStyle:'full'})}
             </p>
             <Image
               src={data.image}

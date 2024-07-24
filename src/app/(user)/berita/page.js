@@ -71,7 +71,7 @@ export default function Berita() {
             </ol>
             <Input
               type="text"
-              className="items-end w-1/3"
+              className="items-end w-1/2 sm:w-1/3"
               startContent={<FaSearch />}
               placeholder="Search..."
               value={searchTerm}
@@ -102,7 +102,7 @@ export default function Berita() {
                         <div className="w-full md:w-1/2 px-4 py-2 overflow-hidden">
                           <h1 className="text-xl font-bold">{item.judul}</h1>
                           <p className="text-sm text-gray-500">
-                            {item.tanggalKegiatan}
+                            {new Date(item.tanggalKegiatan).toLocaleString("id-ID", {dateStyle:'full'})}
                           </p>
                           <div
                             className="text-ellipsis line-clamp-2 mt-1 text-sm "

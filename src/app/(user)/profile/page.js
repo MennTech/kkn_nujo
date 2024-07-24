@@ -95,8 +95,8 @@ const Profile = () => {
         </div>
         <div className="mx-6 mt-5">
           <div className="border-b border-b-green-300 mb-6">
-            <h1 className="text-3xl text-[#08997c] font-mono">
-              SEJARAH <strong>PADUKUHAN</strong>
+            <h1 className="text-3xl text-[#08997c] font-bold font-mono">
+              SEJARAH PADUKUHAN
             </h1>
             <div className="bg-green-600 h-1 w-32"></div>
           </div>
@@ -108,9 +108,9 @@ const Profile = () => {
           ) : (
             <div className="p-profil text-justify text-lg font-mono">
               <div className="animate-pulse">
-                <div className="h-4 bg-green-200 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-green-200 rounded w-5/6 mb-2"></div>
-                <div className="h-4 bg-green-200 rounded w-2/3"></div>
+                <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-5/6 mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-2/3"></div>
               </div>
             </div>
           )}
@@ -118,8 +118,8 @@ const Profile = () => {
 
         <div className="mx-6 mt-5">
           <div className="border-b border-b-green-300 mb-6">
-            <h1 className="text-3xl text-[#08997c] font-mono">
-              TENTANG <strong>PADUKUHAN</strong>
+            <h1 className="text-3xl text-[#08997c] font-bold font-mono">
+              TENTANG PADUKUHAN
             </h1>
             <div className="bg-green-600 h-1 w-32"></div>
           </div>
@@ -131,9 +131,9 @@ const Profile = () => {
           ) : (
             <div className="p-profil text-justify text-lg font-mono">
               <div className="animate-pulse">
-                <div className="h-4 bg-green-200 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-green-200 rounded w-5/6 mb-2"></div>
-                <div className="h-4 bg-green-200 rounded w-2/3"></div>
+                <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-5/6 mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-2/3"></div>
               </div>
             </div>
           )}
@@ -141,15 +141,15 @@ const Profile = () => {
 
         <div className="mx-6 mt-5">
           <div className="border-b border-b-green-300 mb-6">
-            <h1 className="text-3xl text-[#08997c] font-mono">
-              STRUKTUR <strong>ORGANISASI</strong>
+            <h1 className="text-3xl text-[#08997c] font-bold font-mono">
+              STRUKTUR ORGANISASI
             </h1>
             <div className="bg-green-600 h-1 w-32"></div>
           </div>
           <div className="animate-pulse">
-            <div className="h-4 bg-green-200 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-green-200 rounded w-5/6 mb-2"></div>
-            <div className="h-4 bg-green-200 rounded w-2/3"></div>
+            <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+            <div className="h-4 bg-gray-300 rounded w-5/6 mb-2"></div>
+            <div className="h-4 bg-gray-300 rounded w-2/3"></div>
           </div>
         </div>
       </div>
