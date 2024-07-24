@@ -3,7 +3,7 @@
 import NavbarAdmin from "@/components/TopNavbar/NavbarAdmin";
 import React from "react";
 import { db } from "../../../../services/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { Button, Image, Input, Card, CardHeader, CardBody, Divider, DatePicker } from "@nextui-org/react";
 import 'react-quill/dist/quill.snow.css';
 import { getFile, uploadFile } from "@/libs/storage";
@@ -72,10 +72,10 @@ const TambahArtikelPage = () => {
             await addDoc(collection(db, "artikel"), {
                 id: slugify(values.judul, {lower: true, remove: /[*+~.()'"!:@]/g}),
                 judul: values.judul,
-                tanggalKegiatan: formatDate(values.tanggalKegiatan),
+                tanggalKegiatan: values.tanggalKegiatan.toISOString(),
                 content: values.content,
                 image: imageUrl,
-                tanggalPembuatan: formatDate(new Date())
+                tanggalPembuatan: new Date().toISOString(),
             })
             .then(() => {
                 resetForm();
@@ -127,7 +127,7 @@ const TambahArtikelPage = () => {
                                             )}
                                         </div>
                                         <div>
-                                            <DatePicker showMonthAndYearPickers maxValue={today()} label='Tanggal Kegiatan' labelPlacement="outside" name="tanggalKegiatan" onChange={value => formik.setFieldValue('tanggalKegiatan',new Date(value))} isRequired/>
+                                            <DatePicker showMonthAndYearPickers maxValue={today()} label='Tanggal Kegiatan' labelPlacement="outside" name="tanggalKegiatan" onChange={value => formik.setFieldValue('tanggalKegiatan', new Date(value))} isRequired/>
                                             {formik.errors.tanggalKegiatan && formik.touched.tanggalKegiatan && (
                                                 <div className="text-red-500 text-sm">{formik.errors.tanggalKegiatan}</div>
                                             )}
@@ -136,15 +136,6 @@ const TambahArtikelPage = () => {
                                             <div>
                                                 <label htmlFor="selectedFile" className="text-sm">Gambar <span className="text-red-500">*</span></label>
                                             </div>
-                                            {/* <input
-                                                type="file" 
-                                                id="selectedFile"
-                                                onChange={handleImageChange} 
-                                                accept="image/*" 
-                                                label='Gambar' 
-                                                placeholder="Pilih Gambar" 
-                                                name="selectedFile"
-                                            />  */}
                                             <label className='border-[2px] border-dashed flex justify-center items-center min-h-40 w-fit min-w-40 max-w-80 rounded-2xl'>
                                                 <input className='w-full h-full sr-only' type="file" accept="image/*" onChange={handleImageChange} />
                                                 {preview ? (
@@ -163,9 +154,6 @@ const TambahArtikelPage = () => {
                                                 <div className="text-red-500 text-sm">{formik.errors.selectedFile}</div>
                                             )}
                                         </div>
-                                        {/* <div className="my-4">
-                                            <Image src={preview} className="w-full aspect-[16/9]"/>
-                                        </div> */}
                                         <div className="h-52 mb-5">
                                             <label htmlFor="konten" className="text-sm">Konten <span className="text-red-500">*</span></label>
                                             <ReactQuill 

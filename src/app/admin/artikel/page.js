@@ -17,9 +17,19 @@ import NavbarAdmin from "@/components/TopNavbar/NavbarAdmin";
 import { FaCirclePlus } from "react-icons/fa6";
 import Link from "next/link";
 import { db } from "../../../services/firebase";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, Timestamp } from "firebase/firestore";
 import ModalHapus from "@/components/Modal/ModalHapus";
 import withAuth from "@/components/Auth/CheckAuth";
+
+
+const formatDate = (date) => {
+  return new Intl.DateTimeFormat('id-ID', { 
+      weekday: 'long', 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+  }).format(date);
+}
 
 const ArtikelPage = () => {
   const [page, setPage] = React.useState(1);
@@ -40,11 +50,14 @@ const ArtikelPage = () => {
     const querySnapshot = await getDocs(q);
     const result = querySnapshot.docs.map((doc) => {
       const data = doc.data();
+      const tanggalPembuatan = data.tanggalPembuatan instanceof Timestamp ? data.tanggalPembuatan.toDate() : new Date(data.tanggalPembuatan);
+      const tanggalKegiatan = data.tanggalKegiatan instanceof Timestamp ? data.tanggalKegiatan.toDate() : new Date(data.tanggalKegiatan);
+  
       return {
         key: doc.id,
         id: data.id,
-        tanggal: data.tanggalPembuatan, // Format tanggalPembuatan
-        tanggalKegiatan: data.tanggalKegiatan, // Keep as string for sorting
+        tanggal: formatDate(tanggalPembuatan), // Format tanggalPembuatan
+        tanggalKegiatan: formatDate(tanggalKegiatan), // Format tanggalKegiatan
         judul: data.judul,
         image: data.image,
         actions: (
@@ -75,6 +88,7 @@ const ArtikelPage = () => {
   
     setRows(result);
   };
+  
   
 
   React.useEffect(() => {

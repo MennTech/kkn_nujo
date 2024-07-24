@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import NavbarAdmin from "@/components/TopNavbar/NavbarAdmin";
 import { db } from '../../../../../services/firebase';
 import { collection, where, query, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { Button, Image, Input, Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
+import { Button, Image, Input, Card, CardHeader, CardBody, Divider, DatePicker } from "@nextui-org/react";
 import 'react-quill/dist/quill.snow.css';
 import { getFile, uploadFile } from "@/libs/storage";
 import { ref, deleteObject } from 'firebase/storage';
@@ -16,22 +16,35 @@ import * as yup from "yup";
 import slugify from "slugify";
 import withAuth from '@/components/Auth/CheckAuth';
 import dynamic from "next/dynamic";
+import { FaImage } from "react-icons/fa6";
+import { today, parseAbsoluteToLocal } from "@internationalized/date";
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 // Validation schema for form fields
 const validationSchema = yup.object({
     judul: yup.string().required('Judul diperlukan'),
+    tanggalKegiatan: yup.string().required('Tanggal Kegiatan diperlukan'),
     content: yup.string().required('Content diperlukan'),
     selectedFile: yup.mixed().nullable().test('fileSize', 'Gambar tidak boleh lebih dari 1MB', (value) => {
         if (!value) return true; // Allow null or undefined values
-        return value.size <= 1*1024*1024;
+        return value.size <= 1 * 1024 * 1024;
     })
-})
+});
+
+const formatDate = (date) => {
+    return new Intl.DateTimeFormat('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    }).format(date);
+};
 
 const UbahArtikelPage = ({ params }) => {
     const [preview, setPreview] = useState(null);
     const [oldImage, setOldImage] = useState(null);
+    const [date, setDate] = useState(null);
     const router = useRouter();
     const { id } = params;
 
@@ -51,6 +64,7 @@ const UbahArtikelPage = ({ params }) => {
     const formik = useFormik({
         initialValues: {
             judul: '',
+            tanggalKegiatan: null,
             content: '',
             selectedFile: null
         },
@@ -73,8 +87,9 @@ const UbahArtikelPage = ({ params }) => {
             const querySnapshot = await getDocs(q);
             const docRef = doc(db, 'artikel', querySnapshot.docs[0].id);
             await updateDoc(docRef, {
-                id: slugify(values.judul, { lower: true , remove: /[*+~.()'"!:@]/g }),
+                id: slugify(values.judul, { lower: true, remove: /[*+~.()'"!:@]/g }),
                 judul: values.judul,
+                tanggalKegiatan: values.tanggalKegiatan.toISOString(),
                 content: values.content,
                 image: imageUrl
             });
@@ -102,15 +117,19 @@ const UbahArtikelPage = ({ params }) => {
     // Fetching data for the article to be edited
     useEffect(() => {
         const fetchData = async () => {
-            const q = query(collection(db, 'artikel'), where('id','==', id));
+            const q = query(collection(db, 'artikel'), where('id', '==', id));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
+                // const date = parseAbsoluteToLocal(data.tanggalKegiatan);
                 formik.setFieldValue('judul', data.judul);
+                // formik.setFieldValue('tanggalKegiatan', date);
                 formik.setFieldValue('content', data.content);
                 setPreview(data.image);
+                setDate(new Date(data.tanggalKegiatan).toLocaleString("id-ID", {dateStyle: 'full'}));
             });
         };
+
         fetchData();
     }, []);
 
@@ -142,27 +161,47 @@ const UbahArtikelPage = ({ params }) => {
                                                 <div className="text-red-500 text-sm">{formik.errors.judul}</div>
                                             )}
                                         </div>
-                                        <div className='flex flex-col'>
-                                            <label htmlFor='selectedFile' className='text-sm'>Gambar</label>
-                                            <input
-                                                type='file'
-                                                id='selectedFile'
-                                                onChange={handleImageChange}
-                                                accept='image/*'
-                                                label='Gambar'
-                                                placeholder='Pilih Gambar'
-                                                name='selectedFile'
+                                        <div>
+                                            <DatePicker
+                                                showMonthAndYearPickers
+                                                maxValue={today()}
+                                                label='Tanggal Kegiatan'
+                                                labelPlacement='outside'
+                                                name='tanggalKegiatan'
+                                                onChange={value => {
+                                                    formik.setFieldValue('tanggalKegiatan', new Date(value))
+                                                }}
+                                                // value={formik.values.tanggalKegiatan}
+                                                isRequired
                                             />
+                                            {formik.errors.tanggalKegiatan && formik.touched.tanggalKegiatan && (
+                                                <div className="text-red-500 text-sm">{formik.errors.tanggalKegiatan}</div>
+                                            )}
+                                            <span className='text-xs text-gray-500'>Tanggal Sebelumnya: {date}</span>
+                                        </div>
+                                        <div className='flex flex-col mt-2'>
+                                            <label htmlFor='selectedFile' className='text-sm'>Gambar <span className='text-red-500'>*</span></label>
+                                            <label className='border-[2px] border-dashed flex justify-center items-center min-h-40 w-fit min-w-40 max-w-80 rounded-2xl'>
+                                                <input className='w-full h-full sr-only' type="file" accept="image/*" onChange={handleImageChange} />
+                                                {preview ? (
+                                                    <Image isZoomed src={preview} alt='preview' className='object-cover max-h-40 max-w-80 w-full rounded-lg' />
+                                                ) :
+                                                    (
+                                                        <>
+                                                            <div className='flex flex-col justify-center items-center'>
+                                                                <FaImage size={32} className='text-gray-400' />
+                                                                <p className='text-[14px] text-gray-400'>unggah thumbnail</p>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                            </label>
                                             {formik.errors.selectedFile && formik.touched.selectedFile && (
                                                 <div className="text-red-500 text-sm">{formik.errors.selectedFile}</div>
                                             )}
                                         </div>
-                                        <div className='my-4'>
-                                            {preview && <Image src={preview} className='w-full aspect-[16/9]' />}
-                                        </div>
                                         <div className='h-52 mb-6'>
-                                            <label htmlFor='konten' className='text-sm'>Konten</label>
-                                            <ReactQuill 
+                                            <label htmlFor='konten' className='text-sm'>Konten <span className='text-red-500'>*</span></label>
+                                            <ReactQuill
                                                 id='konten'
                                                 theme='snow'
                                                 modules={modules}
