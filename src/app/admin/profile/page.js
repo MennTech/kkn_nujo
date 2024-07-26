@@ -214,7 +214,7 @@ function ProfilePage() {
                                 <div className='text-center'>
                                   <FaImage className='mx-auto h-12 w-12 text-gray-500' />
                                   <span className='mt-2 block text-sm font-semibold text-gray-900'>
-                                    {formik.values.selectedFile ? 'Ganti Gambar' : 'Pilih Gambar'}
+                                    Pilih Gambar
                                   </span>
                                   <input
                                     id='selectedFile'
