@@ -209,7 +209,7 @@ function ProfilePage() {
                               )}
                             </div>
                             <div className="mt-2">
-                              <label htmlFor='selectedFile' className='text-sm'>Gambar <span className='text-red-500'>*</span></label>
+                              <label htmlFor='selectedFile' className='text-sm'>Gambar Struktur Organisasi <span className='text-red-500'>*</span></label>
                               <label className='border border-dashed border-gray-500 rounded-lg px-6 pt-6 pb-2 mt-3 flex justify-center'>
                                 <div className='text-center'>
                                   <FaImage className='mx-auto h-12 w-12 text-gray-500' />

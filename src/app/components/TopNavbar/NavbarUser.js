@@ -9,7 +9,7 @@ const NavbarUser = () => {
         "Berita",
         "Profil"
     ];
-
+    
     return(
       <>
         <Navbar onMenuOpenChange={setIsMenuOpen}>
