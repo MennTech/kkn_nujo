@@ -36,6 +36,7 @@ const Profile = () => {
           jumlahPenduduk: doc.data().jumlahPenduduk,
           tentang: doc.data().tentang,
           sejarah: doc.data().sejarah,
+          strukturOrganisasi: doc.data().image,
         };
         setData(result);
       } else {
@@ -146,11 +147,23 @@ const Profile = () => {
             </h1>
             <div className="bg-green-600 h-1 w-32"></div>
           </div>
-          <div className="animate-pulse">
-            <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-gray-300 rounded w-5/6 mb-2"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-          </div>
+            {data.strukturOrganisasi ? (
+              <div className="mt-5">
+                <img
+                  src={data.strukturOrganisasi}
+                  alt="Struktur Organisasi"
+                  className="w-full"
+                />
+              </div>
+            ) : (
+              <div className="mt-5">
+                <div className="animate-pulse">
+                  <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                  <div className="h-4 bg-gray-300 rounded w-5/6 mb-2"></div>
+                  <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+                </div>
+              </div>
+            )}
         </div>
       </div>
       <FooterUser />

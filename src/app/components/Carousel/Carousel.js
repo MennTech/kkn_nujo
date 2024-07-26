@@ -15,7 +15,7 @@ const Carousel = () => {
         },
         {
             image: '/Images/Carousel/1.jpg',
-            title: 'Slide 1',
+            title: 'Budaya Karawitan',
         },
         {
             image: '/Images/Carousel/2.png',
