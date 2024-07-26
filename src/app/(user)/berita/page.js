@@ -5,7 +5,7 @@ import NavbarUser from "@/components/TopNavbar/NavbarUser";
 import { FaHome, FaSearch } from "react-icons/fa";
 import { Link, Card, CardBody, Input, Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../../services/firebase";
 import { useRouter } from "next/navigation";
 
@@ -27,18 +27,17 @@ export default function Berita() {
         image: doc.data().image,
       };
     });
-  
+
     // Sort the result by tanggalKegiatan
     result.sort((a, b) => {
       const dateA = new Date(a.tanggalKegiatan);
       const dateB = new Date(b.tanggalKegiatan);
       return dateB - dateA; // Sort in descending order
     });
-  
+
     // Set the sorted data
     setData(result);
   };
-  
 
   useEffect(() => {
     fetchData();
@@ -86,66 +85,69 @@ export default function Berita() {
             </h1>
             <div className="bg-green-600 h-1 w-32"></div>
           </div>
-          {filteredData.length > 0
-            ? filteredData.map((item) => (
-                <div key={item.key}>
-                  <Card className="my-4 md:my-2 group overflow-hidden">
-                    <CardBody className="w-full p-0 h-full md:h-40 group-hover:bg-slate-200">
-                      <div className="flex flex-col md:flex-row w-full md:justify-between overflow-hidden">
-                        <div className="w-full md:w-1/4">
-                          <img
-                            src={item.image}
-                            alt="gambar"
-                            className="w-full h-40 object-cover rounded-xl group-hover:scale-110 ease-in transition-transform duration-200"
-                          />
-                        </div>
-                        <div className="w-full md:w-1/2 px-4 py-2 overflow-hidden">
-                          <h1 className="text-xl font-bold">{item.judul}</h1>
-                          <p className="text-sm text-gray-500">
-                            {new Date(item.tanggalKegiatan).toLocaleString("id-ID", {dateStyle:'full'})}
-                          </p>
-                          <div
-                            className="text-ellipsis line-clamp-2 mt-1 text-sm "
-                            dangerouslySetInnerHTML={{ __html: item.isi }}
-                          />
-                        </div>
-                        <div className="w-full md:w-1/4 p-2 md:p-4 flex justify-end items-end">
-                          <Button
-                            onClick={() => handleReadMore(item.id)}
-                            className="mt-0 md:mt-2 bg-[#08997c] text-white font-semibold"
-                          >
-                            Baca selengkapnya
-                          </Button>
-                        </div>
-                      </div>
-                    </CardBody>
-                  </Card>
-                </div>
-              ))
-            : [...Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className="my-4 md:my-2 group overflow-hidden animate-pulse"
-                >
-                  <div className="w-full p-0 h-full md:h-40 bg-white">
+          {filteredData.length > 0 ? (
+            filteredData.map((item) => (
+              <div key={item.key}>
+                <Card className="my-4 md:my-2 group overflow-hidden">
+                  <CardBody className="w-full p-0 h-full md:h-40 group-hover:bg-slate-200">
                     <div className="flex flex-col md:flex-row w-full md:justify-between overflow-hidden">
-                      <div className="w-full md:w-1/4 bg-gray-300 h-40 rounded-xl"></div>
-                      <div className="w-full md:w-1/2 px-4 py-2">
-                        <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
-                        <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
-                        <div className="h-4 bg-gray-300 rounded w-full mb-1"></div>
-                        <div className="h-4 bg-gray-300 rounded w-5/6 mb-1"></div>
+                      <div className="w-full md:w-1/4">
+                        <img
+                          src={item.image}
+                          alt="gambar"
+                          className="w-full h-40 object-cover rounded-xl group-hover:scale-110 ease-in transition-transform duration-200"
+                        />
+                      </div>
+                      <div className="w-full md:w-1/2 px-4 py-2 overflow-hidden">
+                        <h1 className="text-xl font-bold">{item.judul}</h1>
+                        <p className="text-sm text-gray-500">
+                          {new Date(item.tanggalKegiatan).toLocaleString("id-ID", {dateStyle:'full'})}
+                        </p>
+                        <div
+                          className="text-ellipsis line-clamp-2 mt-1 text-sm "
+                          dangerouslySetInnerHTML={{ __html: item.isi }}
+                        />
                       </div>
                       <div className="w-full md:w-1/4 p-2 md:p-4 flex justify-end items-end">
-                        <div className="h-10 bg-gray-300 rounded w-32"></div>
+                        <Button
+                          onClick={() => handleReadMore(item.id)}
+                          className="mt-0 md:mt-2 bg-[#08997c] text-white font-semibold"
+                        >
+                          Baca selengkapnya
+                        </Button>
                       </div>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            ))
+          ) : searchTerm ? (
+            <div className="text-center text-gray-500">Berita Tidak Ditemukan.</div>
+          ) : (
+            [...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className="my-4 md:my-2 group overflow-hidden animate-pulse"
+              >
+                <div className="w-full p-0 h-full md:h-40 bg-white">
+                  <div className="flex flex-col md:flex-row w-full md:justify-between overflow-hidden">
+                    <div className="w-full md:w-1/4 bg-gray-300 h-40 rounded-xl"></div>
+                    <div className="w-full md:w-1/2 px-4 py-2">
+                      <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
+                      <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+                      <div className="h-4 bg-gray-300 rounded w-full mb-1"></div>
+                      <div className="h-4 bg-gray-300 rounded w-5/6 mb-1"></div>
+                    </div>
+                    <div className="w-full md:w-1/4 p-2 md:p-4 flex justify-end items-end">
+                      <div className="h-10 bg-gray-300 rounded w-32"></div>
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))
+          )}
         </div>
       </div>
-
       <FooterUser />
     </>
   );
