@@ -7,7 +7,7 @@ const NavbarUser = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const menuItems = [
         "Berita",
-        "Profile"
+        "Profil"
     ];
 
     return(
