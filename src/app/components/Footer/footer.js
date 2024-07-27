@@ -1,3 +1,5 @@
+import { FaInstagram } from "react-icons/fa";
+import { BsInstagram } from "react-icons/bs";
 const FooterUser = () => {
     return (
         <div className="z-20 mt-10">
@@ -10,6 +12,7 @@ const FooterUser = () => {
                             </span>
                             <hr className="border border-b-green-300 w-full mb-2" />
                             {/* TODO: add content here */}
+                            <a href="https://www.instagram.com/k1m_nuj0?igsh=MTAxcjd0NnNycGp2ZA==" className="flex gap-x-2 items-center font-bold text-base hover:underline"><BsInstagram/>KIM Nujo</a>
                         </div>
                         <div className="flex flex-col text-[#08997c]">
                             <span className="text-xl font-bold">
